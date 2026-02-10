@@ -362,6 +362,8 @@ class ClipboardManager: ObservableObject {
     func deleteItem(_ item: ClipboardItem) {
         items.removeAll { $0.id == item.id }
         pinnedItems.removeAll { $0.id == item.id }
+        // 从搜索结果中移除已删除的项目
+        searchResults.removeAll { $0.item.id == item.id }
     }
     
     func togglePin(_ item: ClipboardItem) {
