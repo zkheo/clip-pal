@@ -177,7 +177,7 @@ struct SettingsView: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 48, height: 48)
                 .cornerRadius(8)
-                .shadow(color: Color.black.opacity(0.15), radius: 2, x: 0, y: 1)
+                .shadow(color: Color.black.opacity(0.25), radius: 4, x: 0, y: 2)
             
             // App Name & Version
             VStack(spacing: 2) {
