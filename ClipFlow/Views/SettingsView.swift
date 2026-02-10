@@ -170,106 +170,58 @@ struct SettingsView: View {
     
     // MARK: - 关于
     private var aboutView: some View {
-        VStack(spacing: 0) {
-            // App Icon & Info
-            VStack(spacing: 12) {
-                // App Icon
-                Image(systemName: "doc.on.clipboard.fill")
-                    .font(.system(size: 64))
-                    .foregroundColor(.accentColor)
-                    .shadow(color: .accentColor.opacity(0.3), radius: 8, x: 0, y: 4)
-                
-                // App Name
+        VStack(spacing: 12) {
+            // App Icon
+            Image(systemName: "doc.on.clipboard.fill")
+                .font(.system(size: 48))
+                .foregroundColor(.accentColor)
+            
+            // App Name & Version
+            VStack(spacing: 2) {
                 Text("ClipPal")
-                    .font(.system(size: 20, weight: .semibold))
-                    .foregroundColor(.primary)
-                
-                // Version
+                    .font(.system(size: 16, weight: .semibold))
                 Text("版本 1.0.0")
                     .font(.system(size: 11))
                     .foregroundColor(.secondary)
             }
-            .padding(.top, 40)
-            .padding(.bottom, 32)
+            
+            // Description
+            Text("简洁高效的剪贴板管理工具")
+                .font(.system(size: 12))
+                .foregroundColor(.secondary)
             
             Divider()
-                .padding(.horizontal, 40)
+                .padding(.horizontal, 60)
+                .padding(.vertical, 4)
             
-            // Info Section
-            VStack(spacing: 16) {
-                // Description
-                VStack(spacing: 4) {
-                    Text("简洁高效的剪贴板管理工具")
-                        .font(.system(size: 12))
-                        .foregroundColor(.primary)
-                    
-                    Text("专为 macOS 设计")
-                        .font(.system(size: 11))
-                        .foregroundColor(.secondary)
-                }
-                
-                // Contact Info
-                VStack(spacing: 8) {
-                    HStack(spacing: 6) {
-                        Image(systemName: "envelope.fill")
-                            .font(.system(size: 10))
-                            .foregroundColor(.secondary)
-                        Text("3033453566@qq.com")
-                            .font(.system(size: 11))
-                            .foregroundColor(.secondary)
-                    }
-                    
-                    HStack(spacing: 6) {
-                        Image(systemName: "message.fill")
-                            .font(.system(size: 10))
-                            .foregroundColor(.secondary)
-                        Text("QQ: 3033453566")
-                            .font(.system(size: 11))
-                            .foregroundColor(.secondary)
-                    }
-                }
-                .padding(.top, 8)
-            }
-            .padding(.vertical, 24)
-            
-            Spacer()
-            
-            // Bottom Actions
-            VStack(spacing: 16) {
-                Divider()
-                    .padding(.horizontal, 40)
-                
-                // Quit Button
-                Button(action: {
-                    NSApplication.shared.terminate(nil)
-                }) {
-                    HStack(spacing: 4) {
-                        Image(systemName: "power")
-                            .font(.system(size: 10))
-                        Text("退出 ClipPal")
-                            .font(.system(size: 11))
-                    }
-                    .foregroundColor(.red)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 6)
-                }
-                .buttonStyle(PlainButtonStyle())
-                .background(Color.red.opacity(0.1))
-                .cornerRadius(6)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 6)
-                        .stroke(Color.red.opacity(0.3), lineWidth: 0.5)
-                )
-                
-                // Copyright
-                Text("© 2026 ClipPal. All rights reserved.")
+            // Contact
+            HStack(spacing: 4) {
+                Image(systemName: "message.fill")
                     .font(.system(size: 9))
-                    .foregroundColor(.secondary.opacity(0.7))
-                    .padding(.bottom, 16)
+                Text("QQ: 3033453566")
+                    .font(.system(size: 10))
             }
+            .foregroundColor(.secondary)
+            
+            // Quit Button
+            Button(action: {
+                NSApplication.shared.terminate(nil)
+            }) {
+                Label("退出应用", systemImage: "power")
+                    .font(.system(size: 11))
+            }
+            .buttonStyle(.bordered)
+            .tint(.red)
+            .padding(.top, 8)
+            
+            // Copyright
+            Text("© 2026 ClipPal")
+                .font(.system(size: 9))
+                .foregroundColor(.secondary.opacity(0.6))
+                .padding(.top, 4)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(NSColor.controlBackgroundColor))
+        .padding(.vertical, 20)
+        .frame(maxWidth: .infinity)
     }
 }
 
