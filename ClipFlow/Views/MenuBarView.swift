@@ -47,8 +47,11 @@ struct MenuBarView: View {
     // MARK: - Header
     private var headerView: some View {
         HStack {
-            Image(systemName: "doc.on.clipboard.fill")
-                .foregroundColor(.accentColor)
+            Image(nsImage: NSImage(named: "AppIcon") ?? NSImage(systemSymbolName: "doc.on.clipboard.fill", accessibilityDescription: nil)!)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 22, height: 22)
+                .cornerRadius(4)
             Text("ClipPal")
                 .font(.headline)
             Spacer()
