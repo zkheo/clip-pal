@@ -6,7 +6,7 @@ struct SettingsView: View {
     @AppStorage("maxHistoryCount") private var maxHistoryCount = 100
     @AppStorage("clearOnQuit") private var clearOnQuit = false
     @AppStorage("ignoreConsecutiveDuplicates") private var ignoreDuplicates = true
-    @AppStorage("launchAtLogin") private var launchAtLogin = false
+    @State private var launchAtLogin = LaunchManager.shared.isLaunchAtLoginEnabled
 
     var body: some View {
         TabView {
@@ -41,7 +41,17 @@ struct SettingsView: View {
     private var generalSettings: some View {
         Form {
             Section("启动") {
-                Toggle("开机时自动启动", isOn: $launchAtLogin)
+                Toggle("开机时自动启动", isOn: Binding(
+                    get: { launchAtLogin },
+                    set: { newValue in
+                        launchAtLogin = newValue
+                        let success = LaunchManager.shared.setLaunchAtLogin(enabled: newValue)
+                        if !success {
+                            // 如果设置失败，恢复开关状态
+                            launchAtLogin = !newValue
+                        }
+                    }
+                ))
             }
 
             Section("行为") {
