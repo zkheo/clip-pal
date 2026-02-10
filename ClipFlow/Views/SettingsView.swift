@@ -203,7 +203,7 @@ struct SettingsView: View {
             .tint(.red)
             .padding(.bottom, 8)
             
-            Text("© 2024 ClipPal")
+            Text("© 2026 ClipPal")
                 .font(.caption2)
                 .foregroundColor(.secondary)
         }
