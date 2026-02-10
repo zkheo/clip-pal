@@ -6,7 +6,7 @@ struct SettingsView: View {
     @AppStorage("maxHistoryCount") private var maxHistoryCount = 100
     @AppStorage("clearOnQuit") private var clearOnQuit = false
     @AppStorage("ignoreConsecutiveDuplicates") private var ignoreDuplicates = true
-    @AppStorage("launchAtLogin") private var launchAtLogin = false
+    @State private var launchAtLogin = LaunchManager.shared.isLaunchAtLoginEnabled
 
     var body: some View {
         TabView {
@@ -41,7 +41,17 @@ struct SettingsView: View {
     private var generalSettings: some View {
         Form {
             Section("启动") {
-                Toggle("开机时自动启动", isOn: $launchAtLogin)
+                Toggle("开机时自动启动", isOn: Binding(
+                    get: { launchAtLogin },
+                    set: { newValue in
+                        launchAtLogin = newValue
+                        let success = LaunchManager.shared.setLaunchAtLogin(enabled: newValue)
+                        if !success {
+                            // 如果设置失败，恢复开关状态
+                            launchAtLogin = !newValue
+                        }
+                    }
+                ))
             }
 
             Section("行为") {
@@ -151,7 +161,7 @@ struct SettingsView: View {
             } header: {
                 Text("权限")
             } footer: {
-                Text("请在系统偏好设置中为 ClipFlow 授予辅助功能权限，以启用全局快捷键。")
+                Text("请在系统偏好设置中为 ClipPal 授予辅助功能权限，以启用全局快捷键。")
             }
         }
         .formStyle(.grouped)
@@ -160,43 +170,60 @@ struct SettingsView: View {
     
     // MARK: - 关于
     private var aboutView: some View {
-        VStack(spacing: 16) {
-            Spacer()
+        VStack(spacing: 12) {
+            // App Icon
+            Image(nsImage: NSImage(named: "AppIcon") ?? NSImage(systemSymbolName: "doc.on.clipboard.fill", accessibilityDescription: nil)!)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 48, height: 48)
+                .cornerRadius(8)
+                .shadow(color: Color.black.opacity(0.5), radius: 4, x: 0, y: 2)
             
-            Image(systemName: "doc.on.clipboard.fill")
-                .font(.system(size: 56))
-                .foregroundColor(.accentColor)
+            // App Name & Version
+            VStack(spacing: 2) {
+                Text("ClipPal")
+                    .font(.system(size: 16, weight: .semibold))
+                Text("版本 1.0.0")
+                    .font(.system(size: 11))
+                    .foregroundColor(.secondary)
+            }
             
-            Text("ClipPal")
-                .font(.title2)
-                .fontWeight(.bold)
-            
-            Text("版本 1.0.0")
-                .font(.subheadline)
+            // Description
+            Text("简洁高效的剪贴板管理工具")
+                .font(.system(size: 12))
                 .foregroundColor(.secondary)
             
-            Text("一款简洁高效的剪贴板管理工具")
-                .font(.caption)
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal)
+            Divider()
+                .padding(.horizontal, 60)
+                .padding(.vertical, 4)
             
-            Spacer()
+            // Contact
+            HStack(spacing: 4) {
+                Image(systemName: "message.fill")
+                    .font(.system(size: 9))
+                Text("QQ: 3033453566")
+                    .font(.system(size: 10))
+            }
+            .foregroundColor(.secondary)
             
+            // Quit Button
             Button(action: {
                 NSApplication.shared.terminate(nil)
             }) {
                 Label("退出应用", systemImage: "power")
-                    .font(.caption)
+                    .font(.system(size: 11))
             }
             .buttonStyle(.bordered)
             .tint(.red)
-            .padding(.bottom, 8)
+            .padding(.top, 8)
             
-            Text("© 2024 ClipPal")
-                .font(.caption2)
-                .foregroundColor(.secondary)
+            // Copyright
+            Text("© 2026 ClipPal")
+                .font(.system(size: 9))
+                .foregroundColor(.secondary.opacity(0.6))
+                .padding(.top, 4)
         }
+        .padding(.vertical, 20)
         .frame(maxWidth: .infinity)
     }
 }
