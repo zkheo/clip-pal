@@ -4,7 +4,6 @@ struct MenuBarView: View {
     @EnvironmentObject var clipboardManager: ClipboardManager
     @State private var searchText = ""
     @State private var hoveredItemId: UUID?
-    @State private var refreshTrigger = UUID()
     
     var body: some View {
         VStack(spacing: 0) {
@@ -128,10 +127,10 @@ struct MenuBarView: View {
                 if !clipboardManager.pinnedItems.isEmpty {
                     sectionHeader("固定项", icon: "pin.fill")
                     
-                    ForEach(clipboardManager.pinnedItems) { item in
+                    ForEach(Array(clipboardManager.pinnedItems.enumerated()), id: \.element.id) { index, item in
                         let searchResult = clipboardManager.searchResult(for: item)
                         ClipboardItemRow(
-                            item: item,
+                            item: clipboardManager.pinnedItems[index],
                             isHovered: hoveredItemId == item.id,
                             searchQuery: clipboardManager.searchQuery,
                             highlightedRanges: searchResult?.highlightedRanges ?? [],
@@ -140,7 +139,6 @@ struct MenuBarView: View {
                             onDelete: { clipboardManager.deleteItem(item) },
                             onTogglePin: {
                                 clipboardManager.togglePin(item)
-                                refreshTrigger = UUID()
                             }
                         )
                         .onHover { isHovered in
@@ -159,10 +157,12 @@ struct MenuBarView: View {
                 if clipboardManager.filteredItems.isEmpty {
                     emptyStateView
                 } else {
-                    ForEach(clipboardManager.filteredItems.filter { !$0.isPinned }) { item in
+                    let filteredItems = clipboardManager.filteredItems.filter { !$0.isPinned }
+                    ForEach(Array(filteredItems.enumerated()), id: \.element.id) { index, item in
                         let searchResult = clipboardManager.searchResult(for: item)
+                        let currentItem = clipboardManager.items.first { $0.id == item.id } ?? item
                         ClipboardItemRow(
-                            item: item,
+                            item: currentItem,
                             isHovered: hoveredItemId == item.id,
                             searchQuery: clipboardManager.searchQuery,
                             highlightedRanges: searchResult?.highlightedRanges ?? [],
@@ -171,7 +171,6 @@ struct MenuBarView: View {
                             onDelete: { clipboardManager.deleteItem(item) },
                             onTogglePin: {
                                 clipboardManager.togglePin(item)
-                                refreshTrigger = UUID()
                             }
                         )
                         .onHover { isHovered in
