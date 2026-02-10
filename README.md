@@ -1,6 +1,10 @@
 # ClipFlow - 剪贴板管理器
 
 一款简洁高效的 macOS 剪贴板管理工具，支持菜单栏常驻和全局快捷键唤出。
+<img width="3024" height="1964" alt="89A0ED82-C5F5-43E3-A4FA-32E487711522" src="https://github.com/user-attachments/assets/05fa1e1b-1760-4ff5-9c0b-efb24cf4e4de" />
+<img width="3024" height="1964" alt="99C0F2F9-0D47-45FE-B05C-AFC73524D031" src="https://github.com/user-attachments/assets/115ac159-fe71-456d-b9e6-f5ff8decd57e" />
+
+
 
 ## 功能特性
 
