@@ -127,10 +127,10 @@ struct MenuBarView: View {
                 if !clipboardManager.pinnedItems.isEmpty {
                     sectionHeader("固定项", icon: "pin.fill")
                     
-                    ForEach(Array(clipboardManager.pinnedItems.enumerated()), id: \.element.id) { index, item in
+                    ForEach(clipboardManager.pinnedItems) { item in
                         let searchResult = clipboardManager.searchResult(for: item)
                         ClipboardItemRow(
-                            item: clipboardManager.pinnedItems[index],
+                            item: item,
                             isHovered: hoveredItemId == item.id,
                             searchQuery: clipboardManager.searchQuery,
                             highlightedRanges: searchResult?.highlightedRanges ?? [],
@@ -141,6 +141,7 @@ struct MenuBarView: View {
                                 clipboardManager.togglePin(item)
                             }
                         )
+                        .id("\(item.id)-\(item.isPinned)")
                         .onHover { isHovered in
                             hoveredItemId = isHovered ? item.id : nil
                         }
@@ -157,12 +158,10 @@ struct MenuBarView: View {
                 if clipboardManager.filteredItems.isEmpty {
                     emptyStateView
                 } else {
-                    let filteredItems = clipboardManager.filteredItems.filter { !$0.isPinned }
-                    ForEach(Array(filteredItems.enumerated()), id: \.element.id) { index, item in
+                    ForEach(clipboardManager.filteredItems.filter { !$0.isPinned }) { item in
                         let searchResult = clipboardManager.searchResult(for: item)
-                        let currentItem = clipboardManager.items.first { $0.id == item.id } ?? item
                         ClipboardItemRow(
-                            item: currentItem,
+                            item: item,
                             isHovered: hoveredItemId == item.id,
                             searchQuery: clipboardManager.searchQuery,
                             highlightedRanges: searchResult?.highlightedRanges ?? [],
@@ -173,6 +172,7 @@ struct MenuBarView: View {
                                 clipboardManager.togglePin(item)
                             }
                         )
+                        .id("\(item.id)-\(item.isPinned)")
                         .onHover { isHovered in
                             hoveredItemId = isHovered ? item.id : nil
                         }
