@@ -191,6 +191,16 @@ struct SettingsView: View {
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
             
+            HStack(spacing: 4) {
+                Image(systemName: "message.circle")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                Text("作者 QQ: 3033453566")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+            .padding(.top, 4)
+            
             Spacer()
             
             Button(action: {
