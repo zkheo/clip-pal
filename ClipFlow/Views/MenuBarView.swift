@@ -137,8 +137,11 @@ struct MenuBarView: View {
                             onPaste: { clipboardManager.paste(item) },
                             onCopy: { clipboardManager.copyToClipboard(item) },
                             onDelete: { clipboardManager.deleteItem(item) },
-                            onTogglePin: { clipboardManager.togglePin(item) }
+                            onTogglePin: {
+                                clipboardManager.togglePin(item)
+                            }
                         )
+                        .id("\(item.id)-\(item.isPinned)")
                         .onHover { isHovered in
                             hoveredItemId = isHovered ? item.id : nil
                         }
@@ -165,8 +168,11 @@ struct MenuBarView: View {
                             onPaste: { clipboardManager.paste(item) },
                             onCopy: { clipboardManager.copyToClipboard(item) },
                             onDelete: { clipboardManager.deleteItem(item) },
-                            onTogglePin: { clipboardManager.togglePin(item) }
+                            onTogglePin: {
+                                clipboardManager.togglePin(item)
+                            }
                         )
+                        .id("\(item.id)-\(item.isPinned)")
                         .onHover { isHovered in
                             hoveredItemId = isHovered ? item.id : nil
                         }
