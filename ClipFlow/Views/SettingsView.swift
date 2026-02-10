@@ -6,6 +6,7 @@ struct SettingsView: View {
     @AppStorage("maxHistoryCount") private var maxHistoryCount = 100
     @AppStorage("clearOnQuit") private var clearOnQuit = false
     @AppStorage("ignoreConsecutiveDuplicates") private var ignoreDuplicates = true
+    @AppStorage("clearPinnedOnClearHistory") private var clearPinnedOnClearHistory = false
     @State private var launchAtLogin = LaunchManager.shared.isLaunchAtLoginEnabled
 
     var body: some View {
@@ -81,6 +82,12 @@ struct SettingsView: View {
                 Text("限制")
             } footer: {
                 Text("当历史记录超过此数量时，最早的记录将被自动删除。")
+            }
+
+            Section {
+                Toggle("清空时包含置顶内容", isOn: $clearPinnedOnClearHistory)
+            } footer: {
+                Text("开启后，清空历史记录时将一并删除已置顶的内容。")
             }
             
             Section {
