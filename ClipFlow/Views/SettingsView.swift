@@ -161,7 +161,7 @@ struct SettingsView: View {
             } header: {
                 Text("权限")
             } footer: {
-                Text("请在系统偏好设置中为 ClipFlow 授予辅助功能权限，以启用全局快捷键。")
+                Text("请在系统偏好设置中为 ClipPal 授予辅助功能权限，以启用全局快捷键。")
             }
         }
         .formStyle(.grouped)
