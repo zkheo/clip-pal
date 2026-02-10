@@ -52,7 +52,7 @@ struct MenuBarView: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 22, height: 22)
                 .cornerRadius(4)
-                .shadow(color: Color.black.opacity(0.15), radius: 2, x: 0, y: 1)
+                .shadow(color: Color.black.opacity(1), radius: 2, x: 0, y: 1)
             Text("ClipPal")
                 .font(.headline)
             Spacer()

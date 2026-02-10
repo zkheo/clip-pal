@@ -172,9 +172,12 @@ struct SettingsView: View {
     private var aboutView: some View {
         VStack(spacing: 12) {
             // App Icon
-            Image(systemName: "doc.on.clipboard.fill")
-                .font(.system(size: 48))
-                .foregroundColor(.accentColor)
+            Image(nsImage: NSImage(named: "AppIcon") ?? NSImage(systemSymbolName: "doc.on.clipboard.fill", accessibilityDescription: nil)!)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 48, height: 48)
+                .cornerRadius(8)
+                .shadow(color: Color.black.opacity(0.15), radius: 2, x: 0, y: 1)
             
             // App Name & Version
             VStack(spacing: 2) {
