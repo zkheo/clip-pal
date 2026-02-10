@@ -4,6 +4,7 @@ struct MenuBarView: View {
     @EnvironmentObject var clipboardManager: ClipboardManager
     @State private var searchText = ""
     @State private var hoveredItemId: UUID?
+    @State private var refreshTrigger = UUID()
     
     var body: some View {
         VStack(spacing: 0) {
@@ -137,7 +138,10 @@ struct MenuBarView: View {
                             onPaste: { clipboardManager.paste(item) },
                             onCopy: { clipboardManager.copyToClipboard(item) },
                             onDelete: { clipboardManager.deleteItem(item) },
-                            onTogglePin: { clipboardManager.togglePin(item) }
+                            onTogglePin: {
+                                clipboardManager.togglePin(item)
+                                refreshTrigger = UUID()
+                            }
                         )
                         .onHover { isHovered in
                             hoveredItemId = isHovered ? item.id : nil
@@ -165,7 +169,10 @@ struct MenuBarView: View {
                             onPaste: { clipboardManager.paste(item) },
                             onCopy: { clipboardManager.copyToClipboard(item) },
                             onDelete: { clipboardManager.deleteItem(item) },
-                            onTogglePin: { clipboardManager.togglePin(item) }
+                            onTogglePin: {
+                                clipboardManager.togglePin(item)
+                                refreshTrigger = UUID()
+                            }
                         )
                         .onHover { isHovered in
                             hoveredItemId = isHovered ? item.id : nil
