@@ -24,6 +24,7 @@ class ClipboardManager: ObservableObject {
     @AppStorage("clearOnQuit") var clearOnQuit: Bool = false
     @AppStorage("ignoreConsecutiveDuplicates") var ignoreDuplicates: Bool = true
     @AppStorage("launchAtLogin") var launchAtLogin: Bool = false
+    @AppStorage("clearPinnedOnClearHistory") var clearPinnedOnClearHistory: Bool = false
 
     // MARK: - Private Properties
     private var timer: Timer?
@@ -409,9 +410,13 @@ class ClipboardManager: ObservableObject {
         updateTags(in: &pinnedItems)
     }
     
-    /// 清空所有非固定历史记录
+    /// 清空历史记录（根据设置决定是否包含置顶内容）
     func clearUnpinned() {
         items.removeAll()
+        // 根据设置决定是否清空置顶内容
+        if clearPinnedOnClearHistory {
+            pinnedItems.removeAll()
+        }
         // 清理后如果正在搜索，需要更新搜索结果
         if !searchQuery.isEmpty {
             performSearch()
